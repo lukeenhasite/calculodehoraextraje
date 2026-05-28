@@ -1,0 +1,11 @@
+{
+  "name": "Calculadora de Horas Extras — PJF 2026",
+  "short_name": "Horas Extras PJF",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef3f8",
+  "theme_color": "#17385f",
+  "description": "Calculadora de horas extras do Poder Judiciário Federal - 2026",
+  "icons": []
+}

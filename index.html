@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#17385f" />
+  <meta name="description" content="Calculadora de horas extras do Poder Judiciário Federal - 2026" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Calculadora de Horas Extras — PJF 2026</title>
+  <style>
+    :root{
+      --bg:#eef3f8;--surface:#ffffff;--surface-2:#f7fafc;--text:#132238;--muted:#5f7085;
+      --line:#dce6f0;--line-2:#edf2f7;--brand:#17385f;--brand-2:#0f2744;--accent:#f39c12;
+      --green:#1e7f4f;--orange:#d46a00;--red:#b83232;--blue:#1768ac;--shadow:0 18px 40px rgba(15,39,68,.12);
+      --radius:18px;--radius-sm:12px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{min-height:100vh;background:linear-gradient(180deg,#dfeaf5 0%,var(--bg) 38%,#f8fafc 100%);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);}
+    button,select{font:inherit}
+    .app{max-width:1040px;margin:0 auto;padding:18px 14px 34px}
+    .shell{background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.85);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;backdrop-filter:blur(10px)}
+    .header{position:relative;overflow:hidden;background:radial-gradient(circle at 10% 10%,#2f6697 0%,var(--brand) 45%,var(--brand-2) 100%);padding:24px;display:flex;align-items:center;gap:16px;color:white}
+    .header:after{content:"";position:absolute;inset:auto -70px -95px auto;width:230px;height:230px;border-radius:50%;background:rgba(243,156,18,.20)}
+    .logo-ring{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,var(--accent),#ffca75);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff;flex-shrink:0;box-shadow:0 12px 24px rgba(0,0,0,.20);border:2px solid rgba(255,255,255,.45)}
+    .logo-text{position:relative;z-index:1;min-width:0}.logo-text .t1{font-size:24px;font-weight:850;letter-spacing:-.5px}.logo-text .t2{font-size:12px;color:#d9ecff;letter-spacing:1.4px;margin-top:5px;text-transform:uppercase;line-height:1.4}
+    .hbadge{margin-left:auto;position:relative;z-index:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:13px;font-weight:800;padding:8px 14px;border-radius:999px;white-space:nowrap}
+    .tab-bar{display:flex;background:#0f2744;padding:8px;gap:8px;position:sticky;top:0;z-index:5}
+    .tab-btn{flex:1;padding:13px 10px;font-size:14px;font-weight:800;color:#bdd9f2;border:none;cursor:pointer;background:transparent;border-radius:14px;letter-spacing:.2px;transition:all .18s ease;min-height:48px}
+    .tab-btn:hover{background:rgba(255,255,255,.08)}.tab-btn.active{color:#17233a;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.16)}
+    .main-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:0}.content{min-width:0}.side{background:linear-gradient(180deg,#f8fbff,#f2f7fc);border-left:1px solid var(--line);padding:18px}.side-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}.side-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--brand);margin-bottom:8px}.side-card p,.side-card li{font-size:12.5px;color:var(--muted);line-height:1.55}.side-card ul{padding-left:16px}
+    .section{background:var(--surface);border-bottom:1px solid var(--line-2);padding:20px 22px}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}.sicon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}.sicon.blue{background:#e7f2fb}.sicon.green{background:#e8f7ef}.sicon.purple{background:#f0e8f7}.sicon.orange{background:#fff0df}.stitle{font-size:15px;font-weight:850;color:var(--text);letter-spacing:.1px}.ssub{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.35}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field label{display:block;font-size:11px;color:var(--muted);font-weight:800;margin-bottom:7px;letter-spacing:.55px;text-transform:uppercase}select{width:100%;padding:13px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px;background:#fff;color:var(--text);outline:none}select:focus{border-color:#8bbce7;box-shadow:0 0 0 4px rgba(23,104,172,.12)}
+    .tg{display:flex;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface-2);min-height:46px}.tg button{flex:1;padding:11px 8px;font-size:12px;font-weight:800;border:none;cursor:pointer;background:transparent;color:var(--muted);border-right:1px solid var(--line);transition:all .15s}.tg button:last-child{border-right:none}.tg button:hover{background:#eef6ff}.tg button.a{background:var(--brand);color:#fff;box-shadow:inset 0 -2px 0 rgba(0,0,0,.16)}.tg.green button.a{background:var(--green)}.tg.orange button.a{background:var(--orange)}
+    .calc-btn{width:100%;padding:15px 16px;font-size:15px;font-weight:900;color:#fff;border:none;border-radius:14px;cursor:pointer;letter-spacing:.2px;box-shadow:0 12px 24px rgba(15,39,68,.18);transition:transform .12s,filter .12s}.calc-btn:hover{filter:brightness(.96);transform:translateY(-1px)}.btn-jan{background:linear-gradient(135deg,var(--brand),#276394)}.btn-jul{background:linear-gradient(135deg,var(--green),#2aa869)}
+    .results-section{background:#fff;border-bottom:1px solid var(--line);padding:20px 22px}.cards-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}.rc{border-radius:18px;padding:16px;border:1px solid;position:relative;overflow:hidden}.rc:after{content:"";position:absolute;right:-24px;top:-24px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.45)}.rc .rl{font-size:11px;font-weight:900;margin-bottom:7px;letter-spacing:.5px;text-transform:uppercase}.rc .rv{font-size:30px;font-weight:900;letter-spacing:-1px}.rc .rd{font-size:12px;margin-top:4px}.rc.g{background:#ecf8e9;border-color:#a9d89d}.rc.g .rl,.rc.g .rd{color:#34721e}.rc.g .rv{color:#143b0a}.rc.a{background:#fff3df;border-color:#f1b75d}.rc.a .rl,.rc.a .rd{color:#89520d}.rc.a .rv{color:#4c2a03}.rc.b{background:#eaf5ff;border-color:#9ecbf2}.rc.b .rl,.rc.b .rd{color:#1768ac}.rc.b .rv{color:#062e53}.rc.r{background:#fff0f0;border-color:#f0a4a4}.rc.r .rl,.rc.r .rd{color:#ad3030}.rc.r .rv{color:#5b1515}
+    .bk{background:var(--surface-2);border-radius:18px;padding:12px 14px;border:1px solid var(--line);margin-top:8px}.bk-row,.bk-tot{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:8px 0;border-bottom:1px dashed var(--line)}.bk-row:last-child{border-bottom:none}.bk-lbl{color:var(--muted)}.bk-val{text-align:right;font-weight:850;color:var(--text)}.bk-tot{font-size:14px;font-weight:900;border-top:2px solid var(--line);border-bottom:0;margin-top:4px;padding-top:12px}.nota,.warn,.info-box{border-radius:14px;padding:13px 15px;font-size:12px;line-height:1.6;margin-top:12px}.nota{background:#eef7ff;border:1px solid #9ecbf2;color:#164c7c}.nota.jul{background:#ecfbf2;border-color:#97dfb8;color:#1d6a39}.warn{background:#fff3df;border:1px solid #efbd70;color:#77420a}.info-box{background:#fff;border:1px solid var(--line);color:var(--muted)}.info-box strong{color:var(--text)}.hidden{display:none!important}.chip{font-size:11px;font-weight:900;padding:5px 9px;border-radius:999px;display:inline-block}.chip-b{background:#e7f2fb;color:#1768ac}.chip-g{background:#e8f7ef;color:#1e7f4f}.chip-o{background:#fff0df;color:#8a500d}.res-title{font-size:18px;font-weight:900;color:var(--text);letter-spacing:-.2px}.res-sub{font-size:13px;color:var(--muted);margin-top:4px}.chips-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;margin-bottom:15px}.reajuste-tag{display:inline-block;background:#e8f7ef;color:#1e7f4f;font-size:11px;font-weight:900;padding:3px 9px;border-radius:999px;border:1px solid #97dfb8;margin-left:8px;vertical-align:middle}.actions{display:flex;gap:10px;margin-top:12px}.ghost-btn{flex:1;padding:11px 10px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--brand);font-size:12px;font-weight:850;cursor:pointer}.ghost-btn:hover{background:#f4f8fc}.install-tip{display:none}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#132238;color:#fff;padding:12px 16px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 12px 24px rgba(0,0,0,.22);z-index:20;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;bottom:28px}
+    @media (max-width:860px){.app{padding:0}.shell{border-radius:0;box-shadow:none;border:0}.main-grid{grid-template-columns:1fr}.side{border-left:0;border-top:1px solid var(--line);padding:14px}.header{padding:18px 16px}.logo-ring{width:52px;height:52px;border-radius:15px}.logo-text .t1{font-size:19px}.logo-text .t2{font-size:10px}.hbadge{display:none}.section,.results-section{padding:17px 15px}.tab-bar{padding:7px;border-radius:0}.tab-btn{font-size:12px;padding:11px 7px}.grid3{grid-template-columns:1fr}.cards-grid{grid-template-columns:1fr}.rc .rv{font-size:27px}}
+    @media (max-width:520px){.grid2{grid-template-columns:1fr}.tg{display:grid;grid-template-columns:repeat(2,1fr)}.tg button{border-bottom:1px solid var(--line)}.tg button:nth-child(even){border-right:none}.tg button:nth-last-child(-n+2){border-bottom:none}.logo-text .t2{display:none}.actions{flex-direction:column}.bk-row,.bk-tot{align-items:flex-start}.bk-val{max-width:45%}}
+    @media print{body{background:#fff}.app{max-width:none;padding:0}.shell{box-shadow:none;border:0}.tab-bar,.side,.actions,.calc-btn{display:none!important}.main-grid{display:block}.section{break-inside:avoid}.results-section{break-inside:avoid}.hidden{display:none!important}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="shell">
+      <div class="header">
+        <div class="logo-ring">LP</div>
+        <div class="logo-text">
+          <div class="t1">Lukinhas Produções</div>
+          <div class="t2">Calculadora de Horas Extras — Poder Judiciário Federal</div>
+        </div>
+        <div class="hbadge">2026</div>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('jan',this)">📅 Jan – Jun/2026</button>
+        <button class="tab-btn" onclick="showTab('jul',this)">📈 Jul/2026 em diante (+8%)</button>
+      </div>
+
+      <div class="main-grid">
+        <main class="content">
+          <div id="tab-jan">
+            <div id="jan-form"></div>
+            <div id="res-jan" class="hidden">
+              <div class="results-section">
+                <div class="res-title" id="jan-title">—</div>
+                <div class="res-sub" id="jan-sub">—</div>
+                <div class="chips-row" id="jan-chips"></div>
+                <div class="cards-grid" id="jan-cb"></div>
+                <div class="cards-grid" id="jan-cl" style="display:none"></div>
+                <div class="bk" id="jan-bk"></div>
+                <div class="actions"><button class="ghost-btn" onclick="window.print()">🖨️ Imprimir / salvar PDF</button><button class="ghost-btn" onclick="copyResult('jan')">📋 Copiar resultado</button></div>
+                <div class="nota"><strong>Vigência:</strong> 1º/01/2026 — Leis ns. 15.285/2025 e 15.292/2025. Base de cálculo: Remun.(VENC+GAJ 140%) + FC + AQ. VR = 6,5% do CJ-1 (R$ 10.990,74) = <strong>R$ 714,40</strong>. Hora = Base ÷ 200h. Líquido = Bruto × 0,725 (IR 27,5% alíquota máxima estimada).</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-jul" class="hidden">
+            <div class="section">
+              <div class="section-head"><div class="sicon green">📈</div><div><div class="stitle">Reajuste de 8% — a partir de jul/2026 <span class="reajuste-tag">+8%</span></div><div class="ssub">Aplicado sobre vencimentos, GAJ, FC e todos os adicionais (AQ/VR)</div></div></div>
+              <div class="info-box">Todos os valores são reajustados em <strong>8%</strong>: vencimentos, GAJ 140%, funções comissionadas (FC-1 e FC-6) e o VR (base AQ). O VR reajustado passa a ser <strong>6,5% do CJ-1 reajustado</strong>. A fórmula de cálculo permanece idêntica — apenas os valores mudam.<br><br><strong>Valores reajustados (ref.):</strong> VR = R$ 771,55 | FC-1 = R$ 1.312,57 | FC-6 = R$ 3.956,81 | Trein. unit. = R$ 154,31/conj.</div>
+            </div>
+            <div id="jul-form"></div>
+            <div id="res-jul" class="hidden">
+              <div class="results-section">
+                <div class="res-title" id="jul-title">—</div><div class="res-sub" id="jul-sub">—</div><div class="chips-row" id="jul-chips"></div><div class="cards-grid" id="jul-cb"></div><div class="cards-grid" id="jul-cl" style="display:none"></div><div class="bk" id="jul-bk"></div>
+                <div class="actions"><button class="ghost-btn" onclick="window.print()">🖨️ Imprimir / salvar PDF</button><button class="ghost-btn" onclick="copyResult('jul')">📋 Copiar resultado</button></div>
+                <div class="nota jul"><strong>Vigência:</strong> A partir de 1º/07/2026 — reajuste de 8% sobre todos os componentes. VR reajustado = 6,5% do CJ-1 × 1,08 = <strong>R$ 771,55</strong>. Líquido = Bruto × 0,725 (IR 27,5% alíquota máxima estimada).</div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <aside class="side">
+          <div class="side-card"><h3>Como usar</h3><p>Escolha o período, cargo, classe/padrão, função comissionada e adicionais. Em seguida, clique em calcular.</p></div>
+          <div class="side-card"><h3>Atalhos úteis</h3><ul><li>Use “Bruto + líquido” para comparação completa.</li><li>Após calcular, imprima ou salve em PDF.</li><li>O arquivo funciona offline quando baixado.</li></ul></div>
+          <div class="side-card"><h3>Observação</h3><p>O líquido usa desconto estimado de IR de 27,5%. Para uso oficial, confira rubricas e descontos no contracheque.</p></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast">Resultado copiado</div>
+<script>
+const CJ1     = 10990.74;
+const VR_BASE = CJ1 * 0.065;          // R$ 714,40
+const REAJ    = 1.08;
+const VR_JUL  = Math.round(VR_BASE * REAJ * 100) / 100;   // R$ 771,55
+
+const FC_JAN = {0:0, 1:1215.34, 6:3663.71};
+const FC_JUL = {0:0, 1:Math.round(1215.34*REAJ*100)/100, 6:Math.round(3663.71*REAJ*100)/100};
+
+const TAB_JAN = {
+  ANALISTA:{C:{13:[9292.14,22301.14],12:[9021.50,21651.60],11:[8758.73,21020.95]},
+    B:{10:[8503.62,20408.69],9:[8255.95,19814.28],8:[7810.73,18745.75],7:[7583.23,18199.75],6:[7362.37,17669.69]},
+    A:{5:[7147.92,17155.01],4:[6939.75,16655.40],3:[6565.50,15757.20],2:[6374.26,15298.22],1:[6188.61,14852.66]}},
+  TÉCNICO:{C:{13:[5663.47,13592.33],12:[5498.51,13196.42],11:[5338.36,12812.06]},
+    B:{10:[5182.88,12438.91],9:[5031.90,12076.56],8:[4760.56,11425.34],7:[4621.90,11092.56],6:[4487.29,10769.50]},
+    A:{5:[4356.59,10455.82],4:[4229.69,10151.26],3:[4001.60,9603.84],2:[3885.06,9324.14],1:[3771.88,9052.51]}}
+};
+
+// Tabela jul: todos os valores × 1.08
+const TAB_JUL = {};
+Object.keys(TAB_JAN).forEach(cargo=>{
+  TAB_JUL[cargo]={};
+  Object.keys(TAB_JAN[cargo]).forEach(cl=>{
+    TAB_JUL[cargo][cl]={};
+    Object.keys(TAB_JAN[cargo][cl]).forEach(p=>{
+      const [v,r]=TAB_JAN[cargo][cl][p];
+      TAB_JUL[cargo][cl][p]=[Math.round(v*REAJ*100)/100, Math.round(r*REAJ*100)/100];
+    });
+  });
+});
+
+const ORD=[['C',[13,12,11]],['B',[10,9,8,7,6]],['A',[5,4,3,2,1]]];
+function fmt(v){return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function r2(v){return Math.round(v*100)/100;}
+
+function gtg(id){const b=document.getElementById(id);if(!b)return 0;const btn=b.querySelector('button.a');return btn?parseFloat(btn.dataset.val):0;}
+function gtgS(id){const b=document.getElementById(id);if(!b)return 'bruto';const btn=b.querySelector('button.a');return btn?btn.dataset.val:'bruto';}
+
+function mktg(id, onch){
+  const el=document.getElementById(id); if(!el)return;
+  el.querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{el.querySelectorAll('button').forEach(b=>b.classList.remove('a'));btn.classList.add('a');if(onch)onch();}
+  });
+}
+
+function popPad(cargoId, padId){
+  const cargo=document.getElementById(cargoId).value, sel=document.getElementById(padId);
+  sel.innerHTML='';
+  ORD.forEach(([cl,pads])=>pads.forEach(p=>{
+    const o=document.createElement('option');
+    o.value=cl+'|'+p; o.textContent=`Classe ${cl} — Padrão ${p}`; sel.appendChild(o);
+  }));
+  sel.value='B|9';
+}
+
+function checkAQ(warnId, mestId, doutId){
+  const m=gtg(mestId),d=gtg(doutId),w=document.getElementById(warnId);
+  if(m&&d){w.classList.remove('hidden');w.textContent='Atenção: Mestrado e Doutorado não podem ser acumulados. Será considerado apenas o Doutorado (maior valor).';}
+  else w.classList.add('hidden');
+}
+
+function buildForm(prefix, tab, vr, fcMap, btnClass, btnLabel, calcFn){
+  const el=document.getElementById(prefix+'-form');
+  el.innerHTML=`
+  <div class="section">
+    <div class="section-head">
+      <div class="sicon blue">🪪</div>
+      <div><div class="stitle">Cargo e enquadramento</div><div class="ssub">Selecione o cargo, classe e padrão</div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>CARGO</label>
+        <select id="${prefix}-cargo" onchange="popPad('${prefix}-cargo','${prefix}-pad')">
+          <option value="ANALISTA">Analista Judiciário</option>
+          <option value="TÉCNICO" selected>Técnico Judiciário</option>
+        </select>
+      </div>
+      <div class="field"><label>CLASSE / PADRÃO</label><select id="${prefix}-pad"></select></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-head">
+      <div class="sicon purple">🏷️</div>
+      <div><div class="stitle">Função comissionada (FC)</div><div class="ssub">FC-1 = ${fmt(fcMap[1])} | FC-6 = ${fmt(fcMap[6])}</div></div>
+    </div>
+    <div class="tg" id="${prefix}-tg-fc">
+      <button class="a" data-val="0">Sem FC</button>
+      <button data-val="${fcMap[1]}">FC-1</button>
+      <button data-val="${fcMap[6]}">FC-6</button>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-head">
+      <div class="sicon green">🎓</div>
+      <div><div class="stitle">Adicional de qualificação (AQ)</div><div class="ssub">VR = ${fmt(vr)} (6,5% do CJ-1${prefix==='jul'?' × 1,08':''})</div></div>
+    </div>
+    <div class="field" style="margin-bottom:10px"><label>TREINAMENTO — conjuntos de 120h (máx. 3 × ${fmt(vr*0.2)} cada)</label>
+      <div class="tg green" id="${prefix}-tg-trein">
+        <button class="a" data-val="0">Sem trein.</button>
+        <button data-val="1">1 — ${fmt(vr*0.2)}</button>
+        <button data-val="2">2 — ${fmt(vr*0.4)}</button>
+        <button data-val="3">3 — ${fmt(vr*0.6)}</button>
+      </div>
+    </div>
+    <div class="grid3" style="margin-bottom:8px">
+      <div class="field"><label>ESPECIALIZAÇÃO (máx. 2 × ${fmt(vr)})</label>
+        <div class="tg green" id="${prefix}-tg-espec">
+          <button class="a" data-val="0">0</button><button data-val="1">1</button><button data-val="2">2</button>
+        </div>
+      </div>
+      <div class="field"><label>MESTRADO (3,5 × VR = ${fmt(vr*3.5)})</label>
+        <div class="tg green" id="${prefix}-tg-mest">
+          <button class="a" data-val="0">Não</button><button data-val="1">Sim</button>
+        </div>
+      </div>
+      <div class="field"><label>DOUTORADO (5,0 × VR = ${fmt(vr*5)})</label>
+        <div class="tg green" id="${prefix}-tg-dout">
+          <button class="a" data-val="0">Não</button><button data-val="1">Sim</button>
+        </div>
+      </div>
+    </div>
+    <div class="warn hidden" id="${prefix}-aq-warn"></div>
+  </div>
+  <div class="section">
+    <div class="section-head">
+      <div class="sicon orange">👁️</div>
+      <div><div class="stitle">Exibição dos resultados</div></div>
+    </div>
+    <div class="tg orange" id="${prefix}-tg-modo">
+      <button class="a" data-val="bruto">Somente bruto</button>
+      <button data-val="liquido">Somente líquido</button>
+      <button data-val="ambos">Bruto + líquido</button>
+    </div>
+  </div>
+  <div class="section">
+    <button class="calc-btn ${btnClass}" onclick="${calcFn}">${btnLabel}</button>
+  </div>`;
+
+  popPad(prefix+'-cargo', prefix+'-pad');
+  ['fc','trein','espec','modo'].forEach(k=>mktg(prefix+'-tg-'+k));
+  mktg(prefix+'-tg-mest',()=>checkAQ(prefix+'-aq-warn',prefix+'-tg-mest',prefix+'-tg-dout'));
+  mktg(prefix+'-tg-dout',()=>checkAQ(prefix+'-aq-warn',prefix+'-tg-mest',prefix+'-tg-dout'));
+}
+
+function calcFor(prefix, tabela, vr, fcMap){
+  const cargo=document.getElementById(prefix+'-cargo').value;
+  const [cl,p]=document.getElementById(prefix+'-pad').value.split('|');
+  const [venc,remun]=tabela[cargo][cl][parseInt(p)];
+  const fc=gtg(prefix+'-tg-fc');
+  const trein=gtg(prefix+'-tg-trein');
+  const espec=gtg(prefix+'-tg-espec');
+  let mest=gtg(prefix+'-tg-mest'), dout=gtg(prefix+'-tg-dout');
+  if(mest&&dout) mest=0;
+  const modo=gtgS(prefix+'-tg-modo');
+
+  const trein_u = r2(vr*0.2);
+  const aq_tr=r2(trein_u*trein), aq_es=r2(vr*espec), aq_me=r2(vr*3.5*mest), aq_do=r2(vr*5*dout);
+  const aq=r2(aq_tr+aq_es+aq_me+aq_do);
+  const base=r2(remun+fc+aq);
+  const hora=base/200;
+  const e50b=r2(hora*1.5), e100b=r2(hora*2);
+  const e50l=r2(e50b*0.725), e100l=r2(e100b*0.725);
+
+  const cargo_s=cargo==='ANALISTA'?'Analista':'Técnico';
+  document.getElementById(prefix+'-title').textContent=`${cargo_s} Judiciário — Classe ${cl}, Padrão ${p}`;
+  document.getElementById(prefix+'-sub').textContent=`Base: ${fmt(base)} ÷ 200h = ${fmt(hora)}/hora`;
+
+  const ch=document.getElementById(prefix+'-chips'); ch.innerHTML='';
+  if(fc>0) ch.innerHTML+=`<span class="chip chip-b">${fc===fcMap[1]?'FC-1':'FC-6'}</span>`;
+  if(trein>0) ch.innerHTML+=`<span class="chip chip-g">Trein. ${trein}×</span>`;
+  if(espec>0) ch.innerHTML+=`<span class="chip chip-g">Espec. ×${espec}</span>`;
+  if(mest) ch.innerHTML+=`<span class="chip chip-g">Mestrado</span>`;
+  if(dout) ch.innerHTML+=`<span class="chip chip-g">Doutorado</span>`;
+  if(prefix==='jul') ch.innerHTML+=`<span class="chip chip-o">+8% reajuste</span>`;
+
+  const cb=document.getElementById(prefix+'-cb'), cl2=document.getElementById(prefix+'-cl');
+  cb.innerHTML=`
+    <div class="rc g"><div class="rl">EXTRA 50% — BRUTO</div><div class="rv">${fmt(e50b)}</div><div class="rd">por hora extra trabalhada</div></div>
+    <div class="rc a"><div class="rl">EXTRA 100% — BRUTO</div><div class="rv">${fmt(e100b)}</div><div class="rd">por hora extra trabalhada</div></div>`;
+  cl2.innerHTML=`
+    <div class="rc b"><div class="rl">EXTRA 50% — LÍQUIDO (−27,5%)</div><div class="rv">${fmt(e50l)}</div><div class="rd">por hora extra trabalhada</div></div>
+    <div class="rc r"><div class="rl">EXTRA 100% — LÍQUIDO (−27,5%)</div><div class="rv">${fmt(e100l)}</div><div class="rd">por hora extra trabalhada</div></div>`;
+  if(modo==='bruto'){cb.style.display='grid';cl2.style.display='none';}
+  else if(modo==='liquido'){cb.style.display='none';cl2.style.display='grid';}
+  else{cb.style.display='grid';cl2.style.display='grid';}
+
+  let rows='';
+  const bkr=(lbl,val,tot=false)=>`<div class="${tot?'bk-tot':'bk-row'}"><span class="bk-lbl">${lbl}</span><span class="bk-val">${val}</span></div>`;
+  rows+=bkr('Vencimento ('+cl+p+')',fmt(venc));
+  rows+=bkr('GAJ 140%',fmt(r2(remun-venc)));
+  rows+=bkr('Remuneração (VENC + GAJ)',fmt(remun));
+  if(fc>0) rows+=bkr('FC-'+(fc===fcMap[1]?'1':'6'),fmt(fc));
+  if(aq_tr>0) rows+=bkr('AQ Treinamento ('+trein+'× × '+fmt(trein_u)+')',fmt(aq_tr));
+  if(aq_es>0) rows+=bkr('AQ Especialização ('+espec+'× × '+fmt(vr)+')',fmt(aq_es));
+  if(aq_me>0) rows+=bkr('AQ Mestrado (3,5 × '+fmt(vr)+')',fmt(aq_me));
+  if(aq_do>0) rows+=bkr('AQ Doutorado (5,0 × '+fmt(vr)+')',fmt(aq_do));
+  rows+=bkr('Base total de cálculo',fmt(base),true);
+  rows+=bkr('Valor da hora (base ÷ 200h)',fmt(hora));
+  rows+=bkr('Hora extra 50% — bruto',fmt(e50b));
+  rows+=bkr('Hora extra 100% — bruto',fmt(e100b));
+  if(modo!=='bruto'){
+    rows+=bkr('Desconto IR estimado (27,5%)','−'+fmt(r2(e50b*0.275))+' / −'+fmt(r2(e100b*0.275)));
+    rows+=bkr('Hora extra 50% — líquido',fmt(e50l));
+    rows+=bkr('Hora extra 100% — líquido',fmt(e100l));
+  }
+  document.getElementById(prefix+'-bk').innerHTML=rows;
+  document.getElementById('res-'+prefix).classList.remove('hidden');
+}
+
+function calcJan(){calcFor('jan',TAB_JAN,VR_BASE,FC_JAN);}
+function calcJul(){calcFor('jul',TAB_JUL,VR_JUL,FC_JUL);}
+
+function showTab(tab, btn){
+  ['jan','jul'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==tab));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+buildForm('jan', TAB_JAN, VR_BASE, FC_JAN, 'btn-jan',
+  '🧮 Calcular — Jan a Jun/2026', 'calcJan()');
+buildForm('jul', TAB_JUL, VR_JUL, FC_JUL, 'btn-jul',
+  '🧮 Calcular — Jul/2026 em diante (+8%)', 'calcJul()');
+
+
+function copyResult(prefix){
+  const title = document.getElementById(prefix+'-title')?.textContent || '';
+  const sub = document.getElementById(prefix+'-sub')?.textContent || '';
+  const rows = Array.from(document.querySelectorAll('#'+prefix+'-bk .bk-row, #'+prefix+'-bk .bk-tot')).map(r=>{
+    const a=r.querySelector('.bk-lbl')?.textContent||''; const b=r.querySelector('.bk-val')?.textContent||''; return a+': '+b;
+  }).join('\n');
+  const cards = Array.from(document.querySelectorAll('#'+prefix+'-cb .rc, #'+prefix+'-cl .rc')).filter(c=>getComputedStyle(c.parentElement).display!=='none').map(c=>{
+    return (c.querySelector('.rl')?.textContent||'')+': '+(c.querySelector('.rv')?.textContent||'');
+  }).join('\n');
+  const text = [title, sub, cards, rows].filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(()=>toast('Resultado copiado')).catch(()=>toast('Não foi possível copiar automaticamente'));
+}
+function toast(msg){ const t=document.getElementById('toast'); if(!t) return; t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
