@@ -1,4 +1,4 @@
-const CACHE_NAME='calculadora-hora-extra-v2';
+const CACHE_NAME='calculadora-hora-extra-v3';
 const FILES=['./','./index.html','./manifest.json'];
 
 self.addEventListener('install',event=>{
